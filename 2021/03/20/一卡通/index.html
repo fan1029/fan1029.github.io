@@ -1,0 +1,185 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>从学校一卡通充值系统信息泄露到薅羊毛 | Hexo</title><meta name="author" content="John Doe"><meta name="copyright" content="John Doe"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="学校一卡通充值系统的配套APP做工比较简陋，抓包观察一下发现报文全没有加密，所以没事准备挖挖来的。  漏洞发生在充值电费的地方 1.电费充值处抓取请求包在手机学付包APP抓取交电费页面的请求包 并获取充值电费请求的网页  2.下图为成功从APP中抓取到的链接访问得到下图2的网页   3.刷新该页面，获取信息接口暴露分析抓取到的数据包可知，请求包中含有用户id，通过遍历用户id获取敏感信息  4.放">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从学校一卡通充值系统信息泄露到薅羊毛">
+<meta property="og:url" content="http://example.com/2021/03/20/%E4%B8%80%E5%8D%A1%E9%80%9A/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="学校一卡通充值系统的配套APP做工比较简陋，抓包观察一下发现报文全没有加密，所以没事准备挖挖来的。  漏洞发生在充值电费的地方 1.电费充值处抓取请求包在手机学付包APP抓取交电费页面的请求包 并获取充值电费请求的网页  2.下图为成功从APP中抓取到的链接访问得到下图2的网页   3.刷新该页面，获取信息接口暴露分析抓取到的数据包可知，请求包中含有用户id，通过遍历用户id获取敏感信息  4.放">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg">
+<meta property="article:published_time" content="2021-03-20T09:14:17.000Z">
+<meta property="article:modified_time" content="2021-03-20T09:22:36.462Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2021/03/20/%E4%B8%80%E5%8D%A1%E9%80%9A/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '从学校一卡通充值系统信息泄露到薅羊毛',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-03-20 17:22:36'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">13</div></a></div></div></div><hr/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Hexo</a></span><div id="menus"><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">从学校一卡通充值系统信息泄露到薅羊毛</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2021-03-20T09:14:17.000Z" title="Created 2021-03-20 17:14:17">2021-03-20</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2021-03-20T09:22:36.462Z" title="Updated 2021-03-20 17:22:36">2021-03-20</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="从学校一卡通充值系统信息泄露到薅羊毛"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>学校一卡通充值系统的配套APP做工比较简陋，抓包观察一下发现报文全没有加密，所以没事准备挖挖来的。</p>
+<p><img src="/images/yikatong/11.jpg" alt="/images/yikatong/11.jpg"></p>
+<p>漏洞发生在充值电费的地方</p>
+<h2 id="1-电费充值处抓取请求包"><a href="#1-电费充值处抓取请求包" class="headerlink" title="1.电费充值处抓取请求包"></a>1.电费充值处抓取请求包</h2><p>在手机学付包APP抓取交电费页面的请求包</p>
+<p>并获取充值电费请求的网页</p>
+<p><img src="/images/yikatong/Screenshot_20210223-220039.jpg" alt="/images/yikatong/Screenshot_20210223-220039.jpg"></p>
+<h2 id="2-下图为成功从APP中抓取到的链接"><a href="#2-下图为成功从APP中抓取到的链接" class="headerlink" title="2.下图为成功从APP中抓取到的链接"></a>2.下图为成功从APP中抓取到的链接</h2><p>访问得到下图2的网页</p>
+<p><img src="/images/yikatong/Untitled.png" alt="/images/yikatong/Untitled.png"></p>
+<p><img src="/images/yikatong/Untitled%201.png" alt="/images/yikatong/Untitled%201.png"></p>
+<h2 id="3-刷新该页面，获取信息接口暴露"><a href="#3-刷新该页面，获取信息接口暴露" class="headerlink" title="3.刷新该页面，获取信息接口暴露"></a>3.刷新该页面，获取信息接口暴露</h2><p>分析抓取到的数据包可知，请求包中含有用户id，通过遍历用户id获取敏感信息</p>
+<p><img src="/images/yikatong/Untitled%202.png" alt="/images/yikatong/Untitled%202.png"></p>
+<h2 id="4-放行数据包"><a href="#4-放行数据包" class="headerlink" title="4.放行数据包"></a>4.放行数据包</h2><p>成功返回用户卡内余额 绑定银行卡卡号 身份证号码 等敏感信息 </p>
+<p><img src="/images/yikatong/Untitled%203.png" alt="/images/yikatong/Untitled%203.png"></p>
+<p><strong>此时尝试将卡号改为非账户本人信息，成功越权获取其他用户的敏感数据！</strong></p>
+<p><img src="/images/yikatong/Untitled%204.png" alt="/images/yikatong/Untitled%204.png"></p>
+<p>你以为到这边就结束了吗？</p>
+<p>由于这个软件做工比较垃圾 默认密码是身份证后六位而且想要改密码还没手机上改，所以几乎全校大部分人都是在用默认密码。</p>
+<p>所以只要写脚本就可以自动用别人的号给宿舍充电费  每人一角 换算过来也有八百多电费</p>
+<p>主要流程大概是</p>
+<p>1.登陆包—&gt;获取cookie,token等数据</p>
+<p>2.构造电费充值url 需要url中加上第一次登录给的token—&gt;返回一个session</p>
+<p>3.去往充值页面 代入刚才给的session 直接充钱 </p>
+<h2 id="利用脚本编写"><a href="#利用脚本编写" class="headerlink" title="利用脚本编写"></a>利用脚本编写</h2><p>由于之前漏洞已经获取了全校信息所以这次信息导入直接采用之前的社工库。</p>
+<p><img src="/images/yikatong/Untitled%205.png" alt="/images/yikatong/Untitled%205.png"></p>
+<p>filter里面写了正则匹配的函数用来匹配返回包里的内容</p>
+<p><img src="/images/yikatong/Untitled%206.png" alt="/images/yikatong/Untitled%206.png"></p>
+<p>set_goal包里用来设置充值对象</p>
+<p>get_building/floor/room 方法是之前抓取的获取宿舍信息的包</p>
+<p><img src="/images/yikatong/Untitled%207.png" alt="/images/yikatong/Untitled%207.png"></p>
+<p>创建一个类 带指登录的用户</p>
+<p>其中有登录 获取验证码 查询用户余额 充值等方法 </p>
+<p><img src="/images/yikatong/Untitled%208.png" alt="/images/yikatong/Untitled%208.png"></p>
+<h3 id="当然，登录验证码是个难题"><a href="#当然，登录验证码是个难题" class="headerlink" title="当然，登录验证码是个难题"></a>当然，登录验证码是个难题</h3><p>这个弄了我好几天 </p>
+<p>最终发现了一个python库叫 muggle-ocr</p>
+<p>里面自带几个训练好的验证码识别模型 一键无脑识别 很方便 </p>
+<p>就是装起来比较麻烦</p>
+<p>我当时使用python3.7+豆瓣的pip源才装起来的 其他源装好像会报错啥的反正比较麻烦</p>
+<p>识别率蛮高的能打到70% 偶尔抽风 后来发现这个软件验证码错5次会冻结你5分钟 这边直接计数验证码连续错误次数 达到四次sleep一分钟就行了。</p>
+<p>运行截图（没有打开充值模块）</p>
+<p><img src="/images/yikatong/Untitled%209.png" alt="/images/yikatong/Untitled%209.png"></p>
+<p>可以看到效率还是蛮可以的</p>
+<p><img src="/images/yikatong/Untitled%2010.png" alt="/images/yikatong/Untitled%2010.png"></p>
+<p><img src="/images/yikatong/111.gif" alt="/images/yikatong/111.gif"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">John Doe</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://example.com/2021/03/20/%E4%B8%80%E5%8D%A1%E9%80%9A/">http://example.com/2021/03/20/%E4%B8%80%E5%8D%A1%E9%80%9A/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/03/26/%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E5%9C%B0%E7%A0%B4%E8%A7%A3%E9%BE%99%E7%8C%AB%E6%A0%A1%E5%9B%AD/"><img class="prev-cover" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">对某跑步软件的逆向分析</div></div></a></div><div class="next-post pull-right"><a href="/2021/03/20/%E8%AE%B0%E5%BD%95%E6%9F%90%E5%9B%BE%E4%B9%A6%E9%A6%86%E6%A3%80%E7%B4%A2%E7%B3%BB%E7%BB%9F%E7%9A%84%E4%B8%A4%E4%B8%AA%E6%B4%9E/"><img class="next-cover" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">记录某图书馆检索系统的两个洞</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">John Doe</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">13</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E7%94%B5%E8%B4%B9%E5%85%85%E5%80%BC%E5%A4%84%E6%8A%93%E5%8F%96%E8%AF%B7%E6%B1%82%E5%8C%85"><span class="toc-number">1.</span> <span class="toc-text">1.电费充值处抓取请求包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E4%B8%8B%E5%9B%BE%E4%B8%BA%E6%88%90%E5%8A%9F%E4%BB%8EAPP%E4%B8%AD%E6%8A%93%E5%8F%96%E5%88%B0%E7%9A%84%E9%93%BE%E6%8E%A5"><span class="toc-number">2.</span> <span class="toc-text">2.下图为成功从APP中抓取到的链接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%88%B7%E6%96%B0%E8%AF%A5%E9%A1%B5%E9%9D%A2%EF%BC%8C%E8%8E%B7%E5%8F%96%E4%BF%A1%E6%81%AF%E6%8E%A5%E5%8F%A3%E6%9A%B4%E9%9C%B2"><span class="toc-number">3.</span> <span class="toc-text">3.刷新该页面，获取信息接口暴露</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E6%94%BE%E8%A1%8C%E6%95%B0%E6%8D%AE%E5%8C%85"><span class="toc-number">4.</span> <span class="toc-text">4.放行数据包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E8%84%9A%E6%9C%AC%E7%BC%96%E5%86%99"><span class="toc-number">5.</span> <span class="toc-text">利用脚本编写</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BD%93%E7%84%B6%EF%BC%8C%E7%99%BB%E5%BD%95%E9%AA%8C%E8%AF%81%E7%A0%81%E6%98%AF%E4%B8%AA%E9%9A%BE%E9%A2%98"><span class="toc-number">5.1.</span> <span class="toc-text">当然，登录验证码是个难题</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/06/29/hello-world/" title="Hello World"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hello World"/></a><div class="content"><a class="title" href="/2021/06/29/hello-world/" title="Hello World">Hello World</a><time datetime="2021-06-29T07:56:37.982Z" title="Created 2021-06-29 15:56:37">2021-06-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/06/29/%E7%9F%A5%E7%BD%91%E9%80%BB%E8%BE%91/" title="记一次逻辑漏洞"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="记一次逻辑漏洞"/></a><div class="content"><a class="title" href="/2021/06/29/%E7%9F%A5%E7%BD%91%E9%80%BB%E8%BE%91/" title="记一次逻辑漏洞">记一次逻辑漏洞</a><time datetime="2021-06-29T05:25:35.000Z" title="Created 2021-06-29 13:25:35">2021-06-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/03/26/%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E5%9C%B0%E7%A0%B4%E8%A7%A3%E9%BE%99%E7%8C%AB%E6%A0%A1%E5%9B%AD/" title="对某跑步软件的逆向分析"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="对某跑步软件的逆向分析"/></a><div class="content"><a class="title" href="/2021/03/26/%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E5%9C%B0%E7%A0%B4%E8%A7%A3%E9%BE%99%E7%8C%AB%E6%A0%A1%E5%9B%AD/" title="对某跑步软件的逆向分析">对某跑步软件的逆向分析</a><time datetime="2021-03-25T21:39:32.000Z" title="Created 2021-03-26 05:39:32">2021-03-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/03/20/%E4%B8%80%E5%8D%A1%E9%80%9A/" title="从学校一卡通充值系统信息泄露到薅羊毛"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="从学校一卡通充值系统信息泄露到薅羊毛"/></a><div class="content"><a class="title" href="/2021/03/20/%E4%B8%80%E5%8D%A1%E9%80%9A/" title="从学校一卡通充值系统信息泄露到薅羊毛">从学校一卡通充值系统信息泄露到薅羊毛</a><time datetime="2021-03-20T09:14:17.000Z" title="Created 2021-03-20 17:14:17">2021-03-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/03/20/%E8%AE%B0%E5%BD%95%E6%9F%90%E5%9B%BE%E4%B9%A6%E9%A6%86%E6%A3%80%E7%B4%A2%E7%B3%BB%E7%BB%9F%E7%9A%84%E4%B8%A4%E4%B8%AA%E6%B4%9E/" title="记录某图书馆检索系统的两个洞"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="记录某图书馆检索系统的两个洞"/></a><div class="content"><a class="title" href="/2021/03/20/%E8%AE%B0%E5%BD%95%E6%9F%90%E5%9B%BE%E4%B9%A6%E9%A6%86%E6%A3%80%E7%B4%A2%E7%B3%BB%E7%BB%9F%E7%9A%84%E4%B8%A4%E4%B8%AA%E6%B4%9E/" title="记录某图书馆检索系统的两个洞">记录某图书馆检索系统的两个洞</a><time datetime="2021-03-20T08:46:09.000Z" title="Created 2021-03-20 16:46:09">2021-03-20</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By John Doe</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

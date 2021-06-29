@@ -1,0 +1,189 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>学习通越权上传+XSS组合拳 | Hexo</title><meta name="author" content="John Doe"><meta name="copyright" content="John Doe"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="这个主要是寒假回来要上网课无聊挖的 越权1.课程系统资料处首先在自己的账户创建一个课程 ，进入自己课程的资料上传界面，点击本地上传，如图2  2.选择一个资源文件夹，对文件夹进行重命名使用burp对重命名操作进行抓包，发现是一个post型的操作，对其数据包参数进行分析可知  courseid为课程id  一个课程对应一个id（如重说《中国近代纲要》对应courseid&#x3D;206203637） dat">
+<meta property="og:type" content="article">
+<meta property="og:title" content="学习通越权上传+XSS组合拳">
+<meta property="og:url" content="http://example.com/2021/03/20/%E5%AD%A6%E4%B9%A0%E9%80%9A%E8%B6%8A%E6%9D%83%E4%B8%8A%E4%BC%A0-XSS%E7%BB%84%E5%90%88%E6%8B%B3/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="这个主要是寒假回来要上网课无聊挖的 越权1.课程系统资料处首先在自己的账户创建一个课程 ，进入自己课程的资料上传界面，点击本地上传，如图2  2.选择一个资源文件夹，对文件夹进行重命名使用burp对重命名操作进行抓包，发现是一个post型的操作，对其数据包参数进行分析可知  courseid为课程id  一个课程对应一个id（如重说《中国近代纲要》对应courseid&#x3D;206203637） dat">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg">
+<meta property="article:published_time" content="2021-03-20T07:06:48.000Z">
+<meta property="article:modified_time" content="2021-03-20T07:19:27.942Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2021/03/20/%E5%AD%A6%E4%B9%A0%E9%80%9A%E8%B6%8A%E6%9D%83%E4%B8%8A%E4%BC%A0-XSS%E7%BB%84%E5%90%88%E6%8B%B3/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '学习通越权上传+XSS组合拳',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-03-20 15:19:27'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">13</div></a></div></div></div><hr/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Hexo</a></span><div id="menus"><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">学习通越权上传+XSS组合拳</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2021-03-20T07:06:48.000Z" title="Created 2021-03-20 15:06:48">2021-03-20</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2021-03-20T07:19:27.942Z" title="Updated 2021-03-20 15:19:27">2021-03-20</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="学习通越权上传+XSS组合拳"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>这个主要是寒假回来要上网课无聊挖的</p>
+<h1 id="越权"><a href="#越权" class="headerlink" title="越权"></a>越权</h1><h2 id="1-课程系统资料处"><a href="#1-课程系统资料处" class="headerlink" title="1.课程系统资料处"></a>1.课程系统资料处</h2><p>首先在<strong>自己的账户</strong>创建一个课程 ，进入自己课程的资料上传界面，点击本地上传，如图2</p>
+<p><img src="/images/xue_xi_tong_1/Untitled.png" alt="/images/xue_xi_tong_1/Untitled.png"></p>
+<h2 id="2-选择一个资源文件夹，对文件夹进行重命名"><a href="#2-选择一个资源文件夹，对文件夹进行重命名" class="headerlink" title="2.选择一个资源文件夹，对文件夹进行重命名"></a>2.选择一个资源文件夹，对文件夹进行重命名</h2><p>使用burp对重命名操作进行抓包，发现是一个post型的操作，对其数据包参数进行分析可知</p>
+<ul>
+<li>courseid为课程id  一个课程对应一个id（如重说《中国近代纲要》对应courseid=206203637）</li>
+<li>dataid 为课程中的资源id</li>
+<li>dataname 修改后的资源名  如下图</li>
+</ul>
+<p><img src="/images/xue_xi_tong_1/450OL6R88AAT(W)FQJ4J.png" alt="/images/xue_xi_tong_1/450OL6R88AAT(W)FQJ4J.png"></p>
+<p>看 POST参数  可知  courseid 为课程id  dataid 是要修改资源的id  dataname是要修改的名字</p>
+<h2 id="3-然后进入其他课程，获取其他课程id"><a href="#3-然后进入其他课程，获取其他课程id" class="headerlink" title="3.然后进入其他课程，获取其他课程id"></a>3.然后进入其他课程，获取其他课程id</h2><p>如图，这里我们选择进入学校网课期间的《中国近代史纲要》课程作为漏洞攻击案例</p>
+<p>点击要更改的文件抓包，在请求包中可以获得《中国近代史纲要》的courseid，dataid，dataname  等相关参数（后面我们需要用到）</p>
+<p><strong>下图2中可得《中国近代史纲要》courseid dataid</strong></p>
+<p><img src="/images/xue_xi_tong_1/_GNX" alt="/images/xue_xi_tong_1/_GNX)X)2LF2DEQ286.png">X)2LF2DEQ286.png)</p>
+<p><img src="/images/xue_xi_tong_1/Untitled%201.png" alt="/images/xue_xi_tong_1/Untitled%201.png"></p>
+<h2 id="4-修改重命名请求包参数"><a href="#4-修改重命名请求包参数" class="headerlink" title="4.修改重命名请求包参数"></a>4.修改重命名请求包参数</h2><p>将之前的重命名请求包中的courseid，dataid参数替换成《中国近代史纲要》的courseid，dataid，因为我们要修改《中国近代史纲要》中的资源内容，所以需要将原来数据包中的courseid，dataid参数修改《中国近代史纲要》的courseid，dataid参数</p>
+<p><strong>dataname</strong>  为重命名后的资源名，dataname改成什么，资源的名字就会被修改成什么</p>
+<p>这里我们将<strong>dataname=test，（dataname=欢迎加入滨江网安协会，这是一个越权漏洞）</strong>放行篡改后的数据包，结果如下图</p>
+<p><img src="/images/xue_xi_tong_1/QM" alt="/images/xue_xi_tong_1/QM)3G6A0VJPRDBWBK7.png">3G6A0VJPRDBWBK7.png)</p>
+<p>可见文件夹已经更名成功，《中国近代史纲要》课程下多出一个<strong>欢迎加入滨江网安协会，这是一个越权漏洞文件 和 test文件夹</strong></p>
+<h2 id="5-同理，抓取文件上传的请求包"><a href="#5-同理，抓取文件上传的请求包" class="headerlink" title="5.同理，抓取文件上传的请求包"></a>5.同理，抓取文件上传的请求包</h2><p>添加文件到资料包</p>
+<p>抓取想要上传的其他课程数据</p>
+<p>更改添加文件到资料包 中的数据 即可将任意文件上传到任意课程的文件夹中</p>
+<p><img src="/images/xue_xi_tong_1/Untitled%202.png" alt="/images/xue_xi_tong_1/Untitled%202.png"></p>
+<p><img src="/images/xue_xi_tong_1/Untitled%203.png" alt="/images/xue_xi_tong_1/Untitled%203.png"></p>
+<p>上传成功，结果如下图</p>
+<p><img src="/images/xue_xi_tong_1/Untitled%204.png" alt="/images/xue_xi_tong_1/Untitled%204.png"></p>
+<hr>
+<p>当然这边除了重命名文件上传还有其他的越权点。</p>
+<h1 id="XSS"><a href="#XSS" class="headerlink" title="XSS"></a>XSS</h1><p>（学习通XSS好像还蛮多的）</p>
+<h2 id="1-抓取文件上传数据包"><a href="#1-抓取文件上传数据包" class="headerlink" title="1.抓取文件上传数据包"></a>1.抓取文件上传数据包</h2><p>进入文件上传处 抓取文件上传的包，上传文件的数据包如下图，上传文件为post型数据包，其中的jsondata为漏洞触发点，该段数据采用了URL编码加密。</p>
+<p><img src="/images/xue_xi_tong_1/Untitled%205.png" alt="/images/xue_xi_tong_1/Untitled%205.png"></p>
+<h2 id="2-jsondata数据解码"><a href="#2-jsondata数据解码" class="headerlink" title="2.jsondata数据解码"></a>2.jsondata数据解码</h2><p>将上图中jsondata加密数据解码后得到如下Json内容，</p>
+<p>漏洞位置 ：datasize处 （解码后数据）</p>
+<p>这边试过更改好多地方 发现其他地方改都被过滤掉了，后来发现文件大小那一栏没有怎么做过滤。果断一梭子。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[&#123;<span class="string">&quot;courseId&quot;</span>:<span class="string">&quot;216777036&quot;</span>,<span class="string">&quot;rootId&quot;</span>:<span class="string">&quot;0&quot;</span>,<span class="string">&quot;dataName&quot;</span>:<span class="string">&quot;123.png&quot;</span>,</span><br><span class="line"><span class="string">&quot;source&quot;</span>:<span class="string">&quot;1&quot;</span>,<span class="string">&quot;dataSize&quot;</span>:<span class="string">&quot;999PB&quot;</span>,<span class="string">&quot;dataType&quot;</span>:<span class="string">&quot;png&quot;</span>,<span class="string">&quot;objectId&quot;</span>:</span><br><span class="line"><span class="string">&quot;c11ba64e739aa87d231dbbccf9403de8&quot;</span>,<span class="string">&quot;courseName&quot;</span>:<span class="string">&quot;</span></span><br><span class="line"><span class="string">æ°æ®ç»æ&quot;</span>,<span class="string">&quot;isOpen&quot;</span>:<span class="string">&quot;0&quot;</span>,<span class="string">&quot;dataRealType&quot;</span>:<span class="string">&quot;ppt&quot;</span>&#125;]</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-构造XSS攻击代码"><a href="#3-构造XSS攻击代码" class="headerlink" title="3.构造XSS攻击代码"></a>3.构造XSS攻击代码</h2><p>将datasize的内容替换为xss攻击语句（对比上下图可知999PB被替换成了&lt;input//onmouseover= &quot;window<a href="1">‘al’+’ert’</a>&quot;&gt;）</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[&#123;<span class="string">&quot;courseId&quot;</span>:<span class="string">&quot;216777036&quot;</span>,<span class="string">&quot;rootId&quot;</span>:<span class="string">&quot;0&quot;</span>,<span class="string">&quot;dataName&quot;</span>:<span class="string">&quot;123.png&quot;</span>,<span class="string">&quot;source&quot;</span>:<span class="string">&quot;1&quot;</span>,</span><br><span class="line"><span class="string">&quot;dataSize&quot;</span>:<span class="string">&quot;&lt;input//onmouseover= \&quot;window[&#x27;al&#x27;+&#x27;ert&#x27;](1)\&quot;&gt;&quot;</span>,<span class="string">&quot;dataType&quot;</span>:<span class="string">&quot;png&quot;</span>,</span><br><span class="line"><span class="string">&quot;objectId&quot;</span>:<span class="string">&quot;c11ba64e739aa87d231dbbccf9403de8&quot;</span>,<span class="string">&quot;courseName&quot;</span>:<span class="string">&quot;æ°æ®ç»æ&quot;</span>,<span class="string">&quot;isOpen&quot;</span>:<span class="string">&quot;0&quot;</span>,<span class="string">&quot;dataRealType&quot;</span>:<span class="string">&quot;ppt&quot;</span>&#125;]</span><br></pre></td></tr></table></figure>
+
+<p>放行篡改后的数据包，发包上传文件，结果如下图</p>
+<p>发现文件大小处已经变成了输入框  鼠标移动时触发了弹窗事件，攻击成功！</p>
+<p><img src="/images/xue_xi_tong_1/Untitled%206.png" alt="/images/xue_xi_tong_1/Untitled%206.png"></p>
+<h2 id="4-XSS漏洞危害再度扩大"><a href="#4-XSS漏洞危害再度扩大" class="headerlink" title="4.XSS漏洞危害再度扩大"></a>4.XSS漏洞危害再度扩大</h2><p>此时插入xss攻击代码可以获取被害者的cookie 进行 密码钓鱼 木马钓鱼下载 页面劫持等</p>
+<p>获取到的cookie可以用来登录被害者的账号，如下图就属于攻击成功的案例，获取到了用户的cookie，后续，我们通过获取到的cookie凭证成功登录受害者的学习通账号</p>
+<p><img src="/images/xue_xi_tong_1/Untitled%207.png" alt="/images/xue_xi_tong_1/Untitled%207.png"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">John Doe</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://example.com/2021/03/20/%E5%AD%A6%E4%B9%A0%E9%80%9A%E8%B6%8A%E6%9D%83%E4%B8%8A%E4%BC%A0-XSS%E7%BB%84%E5%90%88%E6%8B%B3/">http://example.com/2021/03/20/%E5%AD%A6%E4%B9%A0%E9%80%9A%E8%B6%8A%E6%9D%83%E4%B8%8A%E4%BC%A0-XSS%E7%BB%84%E5%90%88%E6%8B%B3/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/03/20/Apache-Unomi%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%88CVE-2020-13942%EF%BC%89%E5%A4%8D%E7%8E%B0/"><img class="prev-cover" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">Apache Unomi远程代码执行漏洞（CVE-2020-13942）复现</div></div></a></div><div class="next-post pull-right"><a href="/2021/03/20/%E4%B8%AD%E5%9B%BD%E5%A4%A7%E5%AD%A6%E7%94%9F%E5%9C%A8%E7%BA%BF%E6%9F%90%E6%B4%BB%E5%8A%A8%E5%88%B7%E5%88%86%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90%E5%8F%8A%E8%84%9A%E6%9C%AC%E5%AE%9E%E7%8E%B0/"><img class="next-cover" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">某活动网页刷分漏洞分析及脚本实现</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">John Doe</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">13</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%B6%8A%E6%9D%83"><span class="toc-number">1.</span> <span class="toc-text">越权</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E8%AF%BE%E7%A8%8B%E7%B3%BB%E7%BB%9F%E8%B5%84%E6%96%99%E5%A4%84"><span class="toc-number">1.1.</span> <span class="toc-text">1.课程系统资料处</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E9%80%89%E6%8B%A9%E4%B8%80%E4%B8%AA%E8%B5%84%E6%BA%90%E6%96%87%E4%BB%B6%E5%A4%B9%EF%BC%8C%E5%AF%B9%E6%96%87%E4%BB%B6%E5%A4%B9%E8%BF%9B%E8%A1%8C%E9%87%8D%E5%91%BD%E5%90%8D"><span class="toc-number">1.2.</span> <span class="toc-text">2.选择一个资源文件夹，对文件夹进行重命名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E7%84%B6%E5%90%8E%E8%BF%9B%E5%85%A5%E5%85%B6%E4%BB%96%E8%AF%BE%E7%A8%8B%EF%BC%8C%E8%8E%B7%E5%8F%96%E5%85%B6%E4%BB%96%E8%AF%BE%E7%A8%8Bid"><span class="toc-number">1.3.</span> <span class="toc-text">3.然后进入其他课程，获取其他课程id</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E4%BF%AE%E6%94%B9%E9%87%8D%E5%91%BD%E5%90%8D%E8%AF%B7%E6%B1%82%E5%8C%85%E5%8F%82%E6%95%B0"><span class="toc-number">1.4.</span> <span class="toc-text">4.修改重命名请求包参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E5%90%8C%E7%90%86%EF%BC%8C%E6%8A%93%E5%8F%96%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E7%9A%84%E8%AF%B7%E6%B1%82%E5%8C%85"><span class="toc-number">1.5.</span> <span class="toc-text">5.同理，抓取文件上传的请求包</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#XSS"><span class="toc-number">2.</span> <span class="toc-text">XSS</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%8A%93%E5%8F%96%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%95%B0%E6%8D%AE%E5%8C%85"><span class="toc-number">2.1.</span> <span class="toc-text">1.抓取文件上传数据包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-jsondata%E6%95%B0%E6%8D%AE%E8%A7%A3%E7%A0%81"><span class="toc-number">2.2.</span> <span class="toc-text">2.jsondata数据解码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%9E%84%E9%80%A0XSS%E6%94%BB%E5%87%BB%E4%BB%A3%E7%A0%81"><span class="toc-number">2.3.</span> <span class="toc-text">3.构造XSS攻击代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-XSS%E6%BC%8F%E6%B4%9E%E5%8D%B1%E5%AE%B3%E5%86%8D%E5%BA%A6%E6%89%A9%E5%A4%A7"><span class="toc-number">2.4.</span> <span class="toc-text">4.XSS漏洞危害再度扩大</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/06/29/hello-world/" title="Hello World"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hello World"/></a><div class="content"><a class="title" href="/2021/06/29/hello-world/" title="Hello World">Hello World</a><time datetime="2021-06-29T07:56:37.982Z" title="Created 2021-06-29 15:56:37">2021-06-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/06/29/%E7%9F%A5%E7%BD%91%E9%80%BB%E8%BE%91/" title="记一次逻辑漏洞"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="记一次逻辑漏洞"/></a><div class="content"><a class="title" href="/2021/06/29/%E7%9F%A5%E7%BD%91%E9%80%BB%E8%BE%91/" title="记一次逻辑漏洞">记一次逻辑漏洞</a><time datetime="2021-06-29T05:25:35.000Z" title="Created 2021-06-29 13:25:35">2021-06-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/03/26/%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E5%9C%B0%E7%A0%B4%E8%A7%A3%E9%BE%99%E7%8C%AB%E6%A0%A1%E5%9B%AD/" title="对某跑步软件的逆向分析"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="对某跑步软件的逆向分析"/></a><div class="content"><a class="title" href="/2021/03/26/%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E5%9C%B0%E7%A0%B4%E8%A7%A3%E9%BE%99%E7%8C%AB%E6%A0%A1%E5%9B%AD/" title="对某跑步软件的逆向分析">对某跑步软件的逆向分析</a><time datetime="2021-03-25T21:39:32.000Z" title="Created 2021-03-26 05:39:32">2021-03-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/03/20/%E4%B8%80%E5%8D%A1%E9%80%9A/" title="从学校一卡通充值系统信息泄露到薅羊毛"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="从学校一卡通充值系统信息泄露到薅羊毛"/></a><div class="content"><a class="title" href="/2021/03/20/%E4%B8%80%E5%8D%A1%E9%80%9A/" title="从学校一卡通充值系统信息泄露到薅羊毛">从学校一卡通充值系统信息泄露到薅羊毛</a><time datetime="2021-03-20T09:14:17.000Z" title="Created 2021-03-20 17:14:17">2021-03-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/03/20/%E8%AE%B0%E5%BD%95%E6%9F%90%E5%9B%BE%E4%B9%A6%E9%A6%86%E6%A3%80%E7%B4%A2%E7%B3%BB%E7%BB%9F%E7%9A%84%E4%B8%A4%E4%B8%AA%E6%B4%9E/" title="记录某图书馆检索系统的两个洞"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="记录某图书馆检索系统的两个洞"/></a><div class="content"><a class="title" href="/2021/03/20/%E8%AE%B0%E5%BD%95%E6%9F%90%E5%9B%BE%E4%B9%A6%E9%A6%86%E6%A3%80%E7%B4%A2%E7%B3%BB%E7%BB%9F%E7%9A%84%E4%B8%A4%E4%B8%AA%E6%B4%9E/" title="记录某图书馆检索系统的两个洞">记录某图书馆检索系统的两个洞</a><time datetime="2021-03-20T08:46:09.000Z" title="Created 2021-03-20 16:46:09">2021-03-20</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By John Doe</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

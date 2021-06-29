@@ -1,0 +1,276 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>对某跑步软件的逆向分析 | Hexo</title><meta name="author" content="John Doe"><meta name="copyright" content="John Doe"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="对某跑步软件的逆向分析序最近学校要求用软件跑步打开 没错就是这个迫害广大学子的软件（手动滑稽）  本着不想跑步的精神，我绝对对这个软件试探一番。 0x00首先二话不说，肯定是抓个包哈。很快啊。 不过运气不好  请求包和返回包都被加密了。要想解密报文就必须逆向这个破软件 虽然自己不会逆向，但想想自己以后的美好生活，便开始了一次负基础逆向实操 逆向准备工作大致看了一下 软件用的腾讯御加固  反射大师一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="对某跑步软件的逆向分析">
+<meta property="og:url" content="http://example.com/2021/03/26/%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E5%9C%B0%E7%A0%B4%E8%A7%A3%E9%BE%99%E7%8C%AB%E6%A0%A1%E5%9B%AD/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="对某跑步软件的逆向分析序最近学校要求用软件跑步打开 没错就是这个迫害广大学子的软件（手动滑稽）  本着不想跑步的精神，我绝对对这个软件试探一番。 0x00首先二话不说，肯定是抓个包哈。很快啊。 不过运气不好  请求包和返回包都被加密了。要想解密报文就必须逆向这个破软件 虽然自己不会逆向，但想想自己以后的美好生活，便开始了一次负基础逆向实操 逆向准备工作大致看了一下 软件用的腾讯御加固  反射大师一">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg">
+<meta property="article:published_time" content="2021-03-25T21:39:32.000Z">
+<meta property="article:modified_time" content="2021-06-29T05:17:14.937Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2021/03/26/%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E5%9C%B0%E7%A0%B4%E8%A7%A3%E9%BE%99%E7%8C%AB%E6%A0%A1%E5%9B%AD/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '对某跑步软件的逆向分析',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-06-29 13:17:14'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">13</div></a></div></div></div><hr/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Hexo</a></span><div id="menus"><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">对某跑步软件的逆向分析</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2021-03-25T21:39:32.000Z" title="Created 2021-03-26 05:39:32">2021-03-26</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2021-06-29T05:17:14.937Z" title="Updated 2021-06-29 13:17:14">2021-06-29</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="对某跑步软件的逆向分析"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="对某跑步软件的逆向分析"><a href="#对某跑步软件的逆向分析" class="headerlink" title="对某跑步软件的逆向分析"></a>对某跑步软件的逆向分析</h1><h1 id="序"><a href="#序" class="headerlink" title="序"></a>序</h1><p>最近学校要求用软件跑步打开</p>
+<p>没错就是这个迫害广大学子的软件（手动滑稽）</p>
+<p><img src="/images/longmaoxiaoyuan/Untitled.png" alt="/images/longmaoxiaoyuan/Untitled.png"></p>
+<p>本着不想跑步的精神，我绝对对这个软件试探一番。</p>
+<h1 id="0x00"><a href="#0x00" class="headerlink" title="0x00"></a>0x00</h1><p>首先二话不说，肯定是抓个包哈。很快啊。</p>
+<p>不过运气不好</p>
+<p><img src="/images/longmaoxiaoyuan/Untitled%201.png" alt="/images/longmaoxiaoyuan/Untitled%201.png"></p>
+<p>请求包和返回包都被加密了。要想解密报文就必须逆向这个破软件</p>
+<p>虽然自己不会逆向，但想想自己以后的美好生活，便开始了一次负基础逆向实操</p>
+<h1 id="逆向"><a href="#逆向" class="headerlink" title="逆向"></a>逆向</h1><h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>大致看了一下 软件用的腾讯御加固 </p>
+<p>反射大师一梭子直接脱壳</p>
+<p>脱出四个dex文件</p>
+<p><img src="/images/longmaoxiaoyuan/Untitled%202.png" alt="/images/longmaoxiaoyuan/Untitled%202.png"></p>
+<p>很快啊  放进JEB或者JADX </p>
+<p><img src="/images/longmaoxiaoyuan/Untitled%203.png" alt="/images/longmaoxiaoyuan/Untitled%203.png"></p>
+<p>进MYApplication下看看应该是入口  直接反编译成java代码</p>
+<p>JEB2加载反混淆脚本（JADX下直接一键反混淆）虽然反混淆了但是部分关键方法类都还是杂乱的字符</p>
+<p>不过对比来说效果还是有的</p>
+<p><img src="/images/longmaoxiaoyuan/Untitled%204.png" alt="/images/longmaoxiaoyuan/Untitled%204.png"></p>
+<h2 id="寻找加密函数"><a href="#寻找加密函数" class="headerlink" title="寻找加密函数"></a>寻找加密函数</h2><p>这边由于没有啥逆向经验 花了好长时间。。。。回头来看看只要找对方法应该会蛮快的</p>
+<p>主要靠搜索定位大致代码区间 然后通过代码内容大致推测一些函数是用来干嘛的（毕竟被混淆了名字全变成了数字+字母）</p>
+<p>觉得有用的函数就直接调到函数调用的一些地方 还有函数声明的地方继续分析直到找到加密代码区</p>
+<hr>
+<p>这边开始搜索几个关键字(可以进行一些变化)大致的模糊查询下</p>
+<ul>
+<li>key（搜索出来的量应该蛮大的不便于查其实）</li>
+<li>http://</li>
+<li>password/passwd</li>
+<li>request</li>
+<li>respond</li>
+</ul>
+<p>这边先一个http 锁定了totor包里的几个值   其他包里基本上是导入的第三方的东西 这边得出两个地址 后期渗透测试可能会用上</p>
+<p>但是有些之前APP抓包里的URL这边直接搜不到 说明开发者还是做了隐藏的（可见下图倒数第四个应该是个url的构造包）</p>
+<p><img src="/images/longmaoxiaoyuan/Untitled%205.png" alt="/images/longmaoxiaoyuan/Untitled%205.png"></p>
+<p>所以此路不通</p>
+<p>后来找了好久 最终绝对把寻找路线锁定在 request response这些关键词上</p>
+<p>通过追踪找到了如下一个关键的包</p>
+<p><img src="/images/longmaoxiaoyuan/Untitled%206.png" alt="/images/longmaoxiaoyuan/Untitled%206.png"></p>
+<p><strong>关键代码段 对APP报名进行加密</strong></p>
+<p>很快会锁定到这几行代码</p>
+<p><img src="/images/longmaoxiaoyuan/Untitled%207.png" alt="/images/longmaoxiaoyuan/Untitled%207.png"></p>
+<p>可见第一行第五行都调用了包含AESUtils相关的包，这很可能是我们找的加密报文区</p>
+<p>可见在requestbody船舰前对body内容进行了一次AESUtils.m11871a()方法，在respondbody之后加了一个m11872b方法同时中间还对body(a4变量)加上了引号，这与我们之前抓包的报文加密的格式一致</p>
+<p>显然m11871a是一个加密方法   m11872b是一个解密方法 </p>
+<p>这两个方法传入两个参数 第一个传加密文本  第二个传密钥 </p>
+<p>可见这边加密密钥是空。于是我激动的拿去解密，结果是空欢喜一场。。。。解密并没有成功</p>
+<p>可是随便抓一个包解密发现解密失败</p>
+<p>进入AESUtils 继续查找</p>
+<p><img src="/images/longmaoxiaoyuan/Untitled%208.png" alt="/images/longmaoxiaoyuan/Untitled%208.png"></p>
+<h3 id="继续跟踪"><a href="#继续跟踪" class="headerlink" title="继续跟踪"></a>继续跟踪</h3><p>这边继续跟踪AESUtils类 查看AES类下的几个方法是怎么构造的</p>
+<p>可见这两个方法在执行时都会预先判断密钥是不是为空 为空的话就去从NDKTools.getKey方法获取并传入变量f10683作为密钥;</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* renamed from: com.totoro.school.utilpub.network.a.a */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AESUtils</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* renamed from: a */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">static</span> <span class="keyword">final</span> <span class="keyword">String</span> f10683a = NDKTools.getKey();   <span class="comment">//f10683a由getkey()方法赋值</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/* renamed from: a */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">static</span> <span class="keyword">String</span> m11871a(<span class="keyword">String</span> str, <span class="keyword">String</span> str2) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (str2.isEmpty()) &#123;</span><br><span class="line">                str2 = f10683a;    <span class="comment">//密钥为空在密钥由f10683a赋值</span></span><br><span class="line">            &#125;</span><br><span class="line">            Cipher instance = Cipher.getInstance(NDKTools.getTransformation());</span><br><span class="line">            instance.init(<span class="number">1</span>, <span class="keyword">new</span> SecretKeySpec(m11870a(str2).getBytes(), <span class="string">&quot;AES&quot;</span>));</span><br><span class="line">            <span class="keyword">return</span> Base64.encodeToString(instance.doFinal(str.getBytes(<span class="string">&quot;utf-8&quot;</span>)), <span class="number">0</span>).replaceAll(<span class="string">&quot;\\r|\\n&quot;</span>, <span class="string">&quot;&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (<span class="built_in">Exception</span> e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* renamed from: b */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">static</span> <span class="keyword">String</span> m11872b(<span class="keyword">String</span> str, <span class="keyword">String</span> str2) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (str2.isEmpty()) &#123;</span><br><span class="line">                str2 = f10683a;</span><br><span class="line">            &#125;</span><br><span class="line">            SecretKeySpec secretKeySpec = <span class="keyword">new</span> SecretKeySpec(m11870a(str2).getBytes(<span class="string">&quot;ASCII&quot;</span>), <span class="string">&quot;AES&quot;</span>);</span><br><span class="line">            Cipher instance = Cipher.getInstance(NDKTools.getTransformation());</span><br><span class="line">            instance.init(<span class="number">2</span>, secretKeySpec);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">String</span>(instance.doFinal(Base64.decode(str, <span class="number">0</span>)), <span class="string">&quot;utf-8&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (<span class="built_in">Exception</span> e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>继续追踪NDKTools.getKey();</p>
+<p><img src="/images/longmaoxiaoyuan/Untitled%209.png" alt="/images/longmaoxiaoyuan/Untitled%209.png"></p>
+<p>可见这边的函数应该是调用其他库的实现。这个时候在末尾发现了</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">System.loadLibrary(<span class="string">&quot;ndkdemotest-jni&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>显然这些函数的定义都被放到了 ndkdemotest-jni.so的动态链接库之中</p>
+<p>解包APK 从中提取出相关的so文件 使用ida打开</p>
+<p><img src="/images/longmaoxiaoyuan/ida.jpg" alt="/images/longmaoxiaoyuan/ida.jpg"></p>
+<p>很快找到了相关函数 ,这边函数返回的内容直接显示了出来。那这边基本可以推断getkey()方法返回了 www.<em><strong><strong><strong>.com/</strong></strong></strong></em>(这边打个码)</p>
+<p><img src="/images/longmaoxiaoyuan/Untitled%2010.png" alt="/images/longmaoxiaoyuan/Untitled%2010.png"></p>
+<p>可见f10683a变量的值是 www.<em><strong><strong><strong>.com/</strong></strong></strong></em>(这边打个码)</p>
+<p>（but这个不是密钥）同时在其他函数中得到了其AES加密的具体类型 —&gt;AES/ECB/ISO10126Padding</p>
+<p>继续回到jadx 分析可知 str2要经过m11870方法 才得到相应的密钥</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="built_in">static</span> <span class="keyword">String</span> m11872b(<span class="keyword">String</span> str, <span class="keyword">String</span> str2) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (str2.isEmpty()) &#123;</span><br><span class="line">                str2 = f10683a;</span><br><span class="line">            &#125;</span><br><span class="line">            SecretKeySpec secretKeySpec = <span class="keyword">new</span> SecretKeySpec(m11870a(str2).getBytes(<span class="string">&quot;ASCII&quot;</span>), <span class="string">&quot;AES&quot;</span>);</span><br><span class="line">            Cipher instance = Cipher.getInstance(NDKTools.getTransformation());</span><br><span class="line">            instance.init(<span class="number">2</span>, secretKeySpec);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">String</span>(instance.doFinal(Base64.decode(str, <span class="number">0</span>)), <span class="string">&quot;utf-8&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (<span class="built_in">Exception</span> e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* renamed from: a */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">static</span> <span class="keyword">String</span> m11870a(<span class="keyword">String</span> str) &#123;</span><br><span class="line">        <span class="keyword">if</span> (str.length() &gt; <span class="number">16</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> str.substring(<span class="number">0</span>, <span class="number">16</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (str.length() &gt;= <span class="number">16</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> str;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> length = str.length() - <span class="number">1</span>; length &lt; <span class="number">15</span>; length++) &#123;</span><br><span class="line">            str = str + <span class="string">&quot;\\000&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> str;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>很显然m11870a方法是把字符串裁剪为16位（不足补，多则删） 因为这种加密密钥要16位</p>
+<p>最终可以得出来密钥</p>
+<p><img src="/images/longmaoxiaoyuan/Untitled%2011.png" alt="/images/longmaoxiaoyuan/Untitled%2011.png"></p>
+<h3 id="你以为就这么结束了？"><a href="#你以为就这么结束了？" class="headerlink" title="你以为就这么结束了？"></a>你以为就这么结束了？</h3><p>没有。。。。</p>
+<p>第二天跑步抓取上传数据分析 发现他一段跑步总共就发两个包开始一个包 结束一个包</p>
+<p>开始的包（获取一个run_code）：</p>
+<p>请求包解秘下来是学校ID 和学号</p>
+<p><img src="/images/longmaoxiaoyuan/Untitled%2012.png" alt="/images/longmaoxiaoyuan/Untitled%2012.png"></p>
+<p><img src="/images/longmaoxiaoyuan/Untitled%2013.png" alt="/images/longmaoxiaoyuan/Untitled%2013.png"></p>
+<p>结束时传数据的的包：</p>
+<p><img src="/images/longmaoxiaoyuan/Untitled%2014.png" alt="/images/longmaoxiaoyuan/Untitled%2014.png"></p>
+<p>我果断先尝试解上传数据的那个大包。。。。结果</p>
+<p>解密好的参数又加了密…..</p>
+<p><img src="/images/longmaoxiaoyuan/Untitled%2015.png" alt="/images/longmaoxiaoyuan/Untitled%2015.png"></p>
+<p>这加密来的一套一套的真恶心。。。。</p>
+<p><img src="/images/longmaoxiaoyuan/233.jpg" alt="/images/longmaoxiaoyuan/233.jpg"></p>
+<p>好吧只能老老实实继续分析</p>
+<p>虽然加密了 但是参数还是给我们知道了 我这次有了上次的经验，找起来快了很多</p>
+<p>首先搜索参数 param_add param_old 跳转声明 其中两个加密参数使用之前的密钥解密发现第一个参数可以解下来可见参数中有个学小ID 一个学号 一个runcode(后面那串 ) 这个是之前通过跑步之前发的第一个包揭秘下来的他发送时会带上</p>
+<p><img src="/images/longmaoxiaoyuan/Untitled%2016.png" alt="/images/longmaoxiaoyuan/Untitled%2016.png"></p>
+<p><img src="/images/longmaoxiaoyuan/Untitled%2017.png" alt="/images/longmaoxiaoyuan/Untitled%2017.png"></p>
+<p>下显然这些在NewRunRegRequestModel类里会用到 于是查看该方法的用例</p>
+<p><strong>一眼就看到了那熟悉的函数！果断跟进！</strong></p>
+<p><img src="/images/longmaoxiaoyuan/Untitled%2018.png" alt="/images/longmaoxiaoyuan/Untitled%2018.png"></p>
+<p>这个时候会发现有两处加密 而且密钥不同  一个密钥为空（最终变为www.*******.com/） 还有个密钥为B 再通过上面sb.append有schoolid sncode还有个commonconstant.f10416d就可以确定这个是第一个参数param_add 同时 commonconstant.f10416d 也可以确定为runcode  再看第二个参数内容就应该是a密钥是b了</p>
+<p>内容不用关注 直接看 b  可见b是一个东西解密得到的（m11872b为解密函数）分析可知解密的内容是commonconstant.f10416d 即runcode 而密钥则是从</p>
+<p>c2818.m11940b（）方法中获取  继续跟进该方法 定位到关键函数处</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="built_in">static</span> <span class="keyword">Object</span> m11940b(Context context, <span class="keyword">String</span> str, <span class="keyword">Object</span> obj) &#123;</span><br><span class="line">        SharedPreferences sharedPreferences = context.getSharedPreferences(<span class="string">&quot;totoro_school_share_data&quot;</span>, <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">if</span> (obj <span class="keyword">instanceof</span> <span class="keyword">String</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> sharedPreferences.getString(str, (<span class="keyword">String</span>) obj);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (obj <span class="keyword">instanceof</span> <span class="keyword">Integer</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">Integer</span>.valueOf(sharedPreferences.getInt(str, ((<span class="keyword">Integer</span>) obj).intValue()));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (obj <span class="keyword">instanceof</span> <span class="keyword">Boolean</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">Boolean</span>.valueOf(sharedPreferences.getBoolean(str, ((<span class="keyword">Boolean</span>) obj).booleanValue()));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (obj <span class="keyword">instanceof</span> <span class="keyword">Float</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">Float</span>.valueOf(sharedPreferences.getFloat(str, ((<span class="keyword">Float</span>) obj).floatValue()));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (obj <span class="keyword">instanceof</span> Long) &#123;</span><br><span class="line">            <span class="keyword">return</span> Long.valueOf(sharedPreferences.getLong(str, ((Long) obj).longValue()));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>sharePreferences这个是安卓一个好像调用数据的方法 从“totoro_school_share_data”里面获取（键值对形式）</p>
+<p>而从之前调用这个函数的方法</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C2818m.m11940b(getBaseContext(), <span class="string">&quot;openId&quot;</span>, <span class="string">&quot;&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>可见这个其实是调用的open_id （open_id是微信授权登录时给用户分配给属于登陆应用的专有用户ID）</p>
+<p>然后可见该函数返回的值就是openid的内容 </p>
+<p>回到上层可见第二个参数的密钥其实就是 runcode通过密钥为用户openid值得到的值</p>
+<p>第二个参数即用这个值作为密钥，所以底下一步时获取openid</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">b = AESUtils.m11872b(CommonConstant.f10416d, (<span class="keyword">String</span>) C2818m.m11940b(getBaseContext(), <span class="string">&quot;openId&quot;</span>, <span class="string">&quot;&quot;</span>));</span><br></pre></td></tr></table></figure>
+
+<h3 id="open-id-获取"><a href="#open-id-获取" class="headerlink" title="open id 获取"></a>open id 获取</h3><p>从APP的数据存储目录获取</p>
+<p>下载MT管理器</p>
+<p>电脑安装安卓模拟器（或者有root权限的手机或者手机安装VMOS虚拟机）</p>
+<p>装好MT管理器  微信  </p>
+<p>前提是要用微信登陆过一次‘</p>
+<p>先进根目录</p>
+<p><img src="/images/longmaoxiaoyuan/Untitled%2019.png" alt="/images/longmaoxiaoyuan/Untitled%2019.png"></p>
+<p>进入/data/data/com.totoro.school/shared_prefs/totoro_school_share_data.xml（路径也许不同 不一样的话直接搜文件名）</p>
+<p>进入这个xml文件进去以后open id就出来了 </p>
+<p><img src="/images/longmaoxiaoyuan/Untitled%2020.png" alt="/images/longmaoxiaoyuan/Untitled%2020.png"></p>
+<p>获取完毕后拿open_id（前16位）作为runcode的密钥就能解密出runcode的内容（即为后来传数据的）</p>
+<p>先弄个获取runcode的包（每次跑步前发送）返回值用www.*******.com/密钥解密</p>
+<p><img src="/images/longmaoxiaoyuan/Untitled%2021.png" alt="/images/longmaoxiaoyuan/Untitled%2021.png"></p>
+<p>放入解密</p>
+<p><img src="/images/longmaoxiaoyuan/Untitled%2022.png" alt="/images/longmaoxiaoyuan/Untitled%2022.png"></p>
+<p>再将runcode内容用openid前16位进行解密</p>
+<p><img src="/images/longmaoxiaoyuan/Untitled%2023.png" alt="/images/longmaoxiaoyuan/Untitled%2023.png"></p>
+<p>可见得出来的内容正好16位那就和我们前面分析的结果基本上是对的了</p>
+<p>这个时候将之前解密包中的param_old参数中的内容用这个密钥解密就行了</p>
+<p>解密成功！可见这里面上传了用户的手机型号 mac 手机号码 学号 学校代号 GPS经纬度数据等等</p>
+<p>至此数据修改操作就很简单了（由于之前逆向时发现他基本上跑步是否合格都在客户端判断，这里也推测服务器不会再过多进行数据真伪判断）</p>
+<p><img src="/images/longmaoxiaoyuan/Untitled%2024.png" alt="/images/longmaoxiaoyuan/Untitled%2024.png"></p>
+<p>至此这款软件的报文加密就全部分析完毕了</p>
+<p>理一下大致过程</p>
+<p>跑步开始（get_runcode）—runcode用open_id用密钥1解密获取密钥2———提交数据包（密钥1解密后有两个主要参数param_add：用密钥1解密包含runcode 学号信息  param_old 用密钥2解密包含上传的跑步数据）</p>
+<h2 id="尾声"><a href="#尾声" class="headerlink" title="尾声"></a>尾声</h2><p>通过python脚本发包测试，成功！至此以后实现了跑步自由！</p>
+<p><img src="/images/longmaoxiaoyuan/8.png" alt="/images/longmaoxiaoyuan/8.png"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">John Doe</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://example.com/2021/03/26/%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E5%9C%B0%E7%A0%B4%E8%A7%A3%E9%BE%99%E7%8C%AB%E6%A0%A1%E5%9B%AD/">http://example.com/2021/03/26/%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E5%9C%B0%E7%A0%B4%E8%A7%A3%E9%BE%99%E7%8C%AB%E6%A0%A1%E5%9B%AD/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/06/29/%E7%9F%A5%E7%BD%91%E9%80%BB%E8%BE%91/"><img class="prev-cover" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">记一次逻辑漏洞</div></div></a></div><div class="next-post pull-right"><a href="/2021/03/20/%E4%B8%80%E5%8D%A1%E9%80%9A/"><img class="next-cover" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">从学校一卡通充值系统信息泄露到薅羊毛</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">John Doe</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">13</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AF%B9%E6%9F%90%E8%B7%91%E6%AD%A5%E8%BD%AF%E4%BB%B6%E7%9A%84%E9%80%86%E5%90%91%E5%88%86%E6%9E%90"><span class="toc-number">1.</span> <span class="toc-text">对某跑步软件的逆向分析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BA%8F"><span class="toc-number">2.</span> <span class="toc-text">序</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x00"><span class="toc-number">3.</span> <span class="toc-text">0x00</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%80%86%E5%90%91"><span class="toc-number">4.</span> <span class="toc-text">逆向</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="toc-number">4.1.</span> <span class="toc-text">准备工作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%BB%E6%89%BE%E5%8A%A0%E5%AF%86%E5%87%BD%E6%95%B0"><span class="toc-number">4.2.</span> <span class="toc-text">寻找加密函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%A7%E7%BB%AD%E8%B7%9F%E8%B8%AA"><span class="toc-number">4.2.1.</span> <span class="toc-text">继续跟踪</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%A0%E4%BB%A5%E4%B8%BA%E5%B0%B1%E8%BF%99%E4%B9%88%E7%BB%93%E6%9D%9F%E4%BA%86%EF%BC%9F"><span class="toc-number">4.2.2.</span> <span class="toc-text">你以为就这么结束了？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#open-id-%E8%8E%B7%E5%8F%96"><span class="toc-number">4.2.3.</span> <span class="toc-text">open id 获取</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%BE%E5%A3%B0"><span class="toc-number">4.3.</span> <span class="toc-text">尾声</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/06/29/hello-world/" title="Hello World"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hello World"/></a><div class="content"><a class="title" href="/2021/06/29/hello-world/" title="Hello World">Hello World</a><time datetime="2021-06-29T07:56:37.982Z" title="Created 2021-06-29 15:56:37">2021-06-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/06/29/%E7%9F%A5%E7%BD%91%E9%80%BB%E8%BE%91/" title="记一次逻辑漏洞"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="记一次逻辑漏洞"/></a><div class="content"><a class="title" href="/2021/06/29/%E7%9F%A5%E7%BD%91%E9%80%BB%E8%BE%91/" title="记一次逻辑漏洞">记一次逻辑漏洞</a><time datetime="2021-06-29T05:25:35.000Z" title="Created 2021-06-29 13:25:35">2021-06-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/03/26/%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E5%9C%B0%E7%A0%B4%E8%A7%A3%E9%BE%99%E7%8C%AB%E6%A0%A1%E5%9B%AD/" title="对某跑步软件的逆向分析"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="对某跑步软件的逆向分析"/></a><div class="content"><a class="title" href="/2021/03/26/%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E5%9C%B0%E7%A0%B4%E8%A7%A3%E9%BE%99%E7%8C%AB%E6%A0%A1%E5%9B%AD/" title="对某跑步软件的逆向分析">对某跑步软件的逆向分析</a><time datetime="2021-03-25T21:39:32.000Z" title="Created 2021-03-26 05:39:32">2021-03-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/03/20/%E4%B8%80%E5%8D%A1%E9%80%9A/" title="从学校一卡通充值系统信息泄露到薅羊毛"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="从学校一卡通充值系统信息泄露到薅羊毛"/></a><div class="content"><a class="title" href="/2021/03/20/%E4%B8%80%E5%8D%A1%E9%80%9A/" title="从学校一卡通充值系统信息泄露到薅羊毛">从学校一卡通充值系统信息泄露到薅羊毛</a><time datetime="2021-03-20T09:14:17.000Z" title="Created 2021-03-20 17:14:17">2021-03-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/03/20/%E8%AE%B0%E5%BD%95%E6%9F%90%E5%9B%BE%E4%B9%A6%E9%A6%86%E6%A3%80%E7%B4%A2%E7%B3%BB%E7%BB%9F%E7%9A%84%E4%B8%A4%E4%B8%AA%E6%B4%9E/" title="记录某图书馆检索系统的两个洞"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="记录某图书馆检索系统的两个洞"/></a><div class="content"><a class="title" href="/2021/03/20/%E8%AE%B0%E5%BD%95%E6%9F%90%E5%9B%BE%E4%B9%A6%E9%A6%86%E6%A3%80%E7%B4%A2%E7%B3%BB%E7%BB%9F%E7%9A%84%E4%B8%A4%E4%B8%AA%E6%B4%9E/" title="记录某图书馆检索系统的两个洞">记录某图书馆检索系统的两个洞</a><time datetime="2021-03-20T08:46:09.000Z" title="Created 2021-03-20 16:46:09">2021-03-20</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By John Doe</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
