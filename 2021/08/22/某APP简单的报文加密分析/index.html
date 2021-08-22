@@ -1,0 +1,243 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>某APP简单的报文加密分析 | M4PL3’S Blog</title><meta name="author" content="M4PL3"><meta name="copyright" content="M4PL3"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="某APP报文加密分析某公司旗下APP发包签名算法分析 报文采用请求包Sign头签名加密防止重放 返回包内容采用AES加密防止中间人抓取信息 报文结构如下  请求报文    响应报文   脱壳：该APP使用blackDEX进行脱壳详见https:&#x2F;&#x2F;github.com&#x2F;CodingGay&#x2F;BlackDex 加密函数定位 这边的思路主要是  他加密的参数放在了请求头中 所以只要找到给请求头里的变量赋">
+<meta property="og:type" content="article">
+<meta property="og:title" content="某APP简单的报文加密分析">
+<meta property="og:url" content="http://example.com/2021/08/22/%E6%9F%90APP%E7%AE%80%E5%8D%95%E7%9A%84%E6%8A%A5%E6%96%87%E5%8A%A0%E5%AF%86%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="M4PL3’S Blog">
+<meta property="og:description" content="某APP报文加密分析某公司旗下APP发包签名算法分析 报文采用请求包Sign头签名加密防止重放 返回包内容采用AES加密防止中间人抓取信息 报文结构如下  请求报文    响应报文   脱壳：该APP使用blackDEX进行脱壳详见https:&#x2F;&#x2F;github.com&#x2F;CodingGay&#x2F;BlackDex 加密函数定位 这边的思路主要是  他加密的参数放在了请求头中 所以只要找到给请求头里的变量赋">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg">
+<meta property="article:published_time" content="2021-08-22T14:56:19.000Z">
+<meta property="article:modified_time" content="2021-08-22T15:02:23.894Z">
+<meta property="article:author" content="M4PL3">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2021/08/22/%E6%9F%90APP%E7%AE%80%E5%8D%95%E7%9A%84%E6%8A%A5%E6%96%87%E5%8A%A0%E5%AF%86%E5%88%86%E6%9E%90/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '某APP简单的报文加密分析',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-08-22 23:02:23'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="https://thirdqq.qlogo.cn/g?b=sdk&amp;k=KnFJxst4VzWgBDHTtrRomA&amp;s=100&amp;t=1618136919" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">14</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">M4PL3’S Blog</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">某APP简单的报文加密分析</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2021-08-22T14:56:19.000Z" title="Created 2021-08-22 22:56:19">2021-08-22</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2021-08-22T15:02:23.894Z" title="Updated 2021-08-22 23:02:23">2021-08-22</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="某APP简单的报文加密分析"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="某APP报文加密分析"><a href="#某APP报文加密分析" class="headerlink" title="某APP报文加密分析"></a>某APP报文加密分析</h1><p>某公司旗下APP发包签名算法分析</p>
+<p>报文采用请求包Sign头签名加密防止重放 返回包内容采用AES加密防止中间人抓取信息</p>
+<p>报文结构如下</p>
+<ul>
+<li>请求报文</li>
+</ul>
+<p><img src="/images/jmfx/Untitled.png" alt="Untitled"></p>
+<ul>
+<li>响应报文</li>
+</ul>
+<p><img src="/images/jmfx/Untitled%201.png" alt="Untitled"></p>
+<p>脱壳：该APP使用blackDEX进行脱壳详见<a target="_blank" rel="noopener" href="https://github.com/CodingGay/BlackDex">https://github.com/CodingGay/BlackDex</a></p>
+<p>加密函数定位</p>
+<p>这边的思路主要是  他加密的参数放在了请求头中 所以只要找到给请求头里的变量赋值的地方即可找到相关加密方法 这边可以找请求头里的几个参数试试</p>
+<p>随便找个couldid只有两个结果 </p>
+<p><img src="/images/jmfx/Untitled%202.png" alt="Untitled"></p>
+<p>进去很快就找到了sign关键字及其内容的加密方式</p>
+<p><img src="/images/jmfx/Untitled%203.png" alt="Untitled"></p>
+<blockquote>
+<p>commonlib<a target="_blank" rel="noopener" href="https://zhidao.baidu.com/question/537394615.html#:~:text=CommonLib%E6%98%AF%E4%B8%80%E5%A5%97%E5%8C%85%E5%90%AB%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E3%80%81%E7%BD%91%E7%BB%9C%E8%BF%9E%E6%8E%A5%E3%80%81%E5%8E%8B%E7%BC%A9%E7%AD%89%E5%8A%9F%E8%83%BD%E7%9A%84%E8%B7%A8%E5%B9%B3%E5%8F%B0%E9%80%9A%E7%94%A8%E5%BC%80%E5%8F%91%E5%BA%93%EF%BC%8C%E7%94%A8%E4%BA%8E%E5%9C%A8%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91%E4%B8%AD%E5%AE%9E%E7%8E%B0%E5%A4%9A%E7%A7%8D%E5%9B%BA%E5%AE%9A%E5%8A%9F%E8%83%BD%E6%A8%A1%E5%9D%97%EF%BC%8C%E5%AF%B9%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91%E9%A1%B9%E7%9B%AE%E8%B5%B7%E5%88%B0%E5%87%8F%E5%B0%91%E5%BC%80%E5%8F%91%E6%97%B6%E9%97%B4%E3%80%81%E7%BB%9F%E4%B8%80%E5%BC%80%E5%8F%91%E9%A3%8E%E6%A0%BC%E3%80%81%E5%90%88%E7%90%86%E5%88%92%E5%88%86%E7%BB%93%E6%9E%84%E5%92%8C%E6%8F%90%E9%AB%98%E8%BD%AF%E4%BB%B6%E8%B4%A8%E9%87%8F%E7%AD%89%E4%BD%9C%E7%94%A8%E3%80%82%E4%BD%BF%E7%94%A8%E8%BF%87%E7%A8%8B%E4%B8%AD%E6%97%A0%E9%9C%80%E5%85%B3%E6%B3%A8%E5%90%84%E6%A8%A1%E5%9D%97%E7%9A%84%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E5%85%B3%E8%81%94%EF%BC%8C%E4%BB%85%E9%9C%80%E8%A6%81%E9%80%9A%E8%BF%87%E6%8E%A5%E5%8F%A3%E7%9B%B4%E6%8E%A5%E4%BD%BF%E7%94%A8%E5%8D%B3%E5%8F%AF%E3%80%82">是一套包含数据结构、网络连接、压缩等功能的跨平台通用开发库，用于在软件开发中实现多种固定功能模块，对软件开发项目起到减少开发时间、统一开发风格、合理划分结构和提高软件质量等作用。使用过程中无需关注各模块的基础数据结构如何搭建关联，仅需要通过接口直接使用即可。</a></p>
+</blockquote>
+<p>所以对开发很熟悉的人就算搜索不到很快也会找到相关函数的存放位置</p>
+<p>锁定关键代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AEsUtils.m13512a(str4 + str5 + lowerCase + str3 + c + <span class="string">&quot;v2.4.2.20200929&quot;</span> + str2 + a)</span><br></pre></td></tr></table></figure>
+
+<p>这边髁间是调用AEsUtils类下的m13512a方法对相关变量进行处理  跟进该方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">m13512a</span><span class="params">(String str)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (TextUtils.isEmpty(str)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            String str2 = <span class="string">&quot;&quot;</span>;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">byte</span> b : MessageDigest.getInstance(Md5Utils.ALGORITHM).digest(str.getBytes())) &#123;</span><br><span class="line">                String hexString = Integer.toHexString(b &amp; IApp.ABS_PRIVATE_WWW_DIR_APP_MODE);</span><br><span class="line">                <span class="keyword">if</span> (hexString.length() == <span class="number">1</span>) &#123;</span><br><span class="line">                    hexString = <span class="string">&quot;0&quot;</span> + hexString;</span><br><span class="line">                &#125;</span><br><span class="line">                str2 = str2 + hexString;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> str2;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (NoSuchAlgorithmException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;&quot;</span>;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+<p>发现这其实是个md5加密的方法 虽然放在AESUtils类下有点说不过去不知道开发这边怎么想的。。。。</p>
+<p>继续追踪加密参数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> Map&lt;String, String&gt; <span class="title">m13520b</span><span class="params">(String str, Map&lt;String, String&gt; map)</span> </span>&#123;</span><br><span class="line">        String str2;</span><br><span class="line">        <span class="keyword">if</span> (map == <span class="keyword">null</span>) &#123;</span><br><span class="line">            map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        &#125;</span><br><span class="line">        String str3 = (System.currentTimeMillis() / <span class="number">1000</span>) + <span class="string">&quot;&quot;</span>;</span><br><span class="line">        String a = m13517a(<span class="number">11</span>);</span><br><span class="line">        String str4 = TextUtils.equals(<span class="string">&quot;RELEASE&quot;</span>, HostManager.m13215a().mo26572b().getType()) ? <span class="string">&quot;A6015013435046&quot;</span> : <span class="string">&quot;A6089682915278&quot;</span>;</span><br><span class="line">        String c = CommonUtils.m13590c();</span><br><span class="line">        String lowerCase = m13518a(str).toLowerCase();</span><br><span class="line">        String str5 = TextUtils.equals(<span class="string">&quot;RELEASE&quot;</span>, HostManager.m13215a().mo26572b().getType()) ? <span class="string">&quot;PZjXCKysqb&quot;</span> : <span class="string">&quot;6webadkc8t&quot;</span>;</span><br><span class="line">        <span class="keyword">if</span> (UniAppUtil.m13707a(lowerCase)) &#123;</span><br><span class="line">            str2 = UniAppUtil.m13706a(BaseApplication.getInstance());</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            str2 = UserManager.m13335a().mo26643h();</span><br><span class="line">        &#125;</span><br><span class="line">        map.put(<span class="string">&quot;os&quot;</span>, Build.VERSION.RELEASE + <span class="string">&quot;_&quot;</span> + Build.VERSION.SDK_INT);</span><br><span class="line">        map.put(<span class="string">&quot;custom&quot;</span>, a);</span><br><span class="line">        map.put(<span class="string">&quot;cloudid&quot;</span>, str4);</span><br><span class="line">        map.put(<span class="string">&quot;time&quot;</span>, str3);</span><br><span class="line">        map.put(<span class="string">&quot;device&quot;</span>, c);</span><br><span class="line">        map.put(<span class="string">&quot;version&quot;</span>, <span class="string">&quot;v2.4.2.20200929&quot;</span>);</span><br><span class="line">        map.put(<span class="string">&quot;apiversion&quot;</span>, <span class="string">&quot;1.0.0&quot;</span>);</span><br><span class="line">        map.put(<span class="string">&quot;appclient&quot;</span>, <span class="string">&quot;android&quot;</span>);</span><br><span class="line">        map.put(<span class="string">&quot;appversion&quot;</span>, <span class="string">&quot;2.1.1&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span> (UniAppUtil.m13707a(lowerCase)) &#123;</span><br><span class="line">            map.put(<span class="string">&quot;User-Agent&quot;</span>, String.format(<span class="string">&quot;%s;@%s@Huajuanyun_Android@%s&quot;</span>, System.getProperty(<span class="string">&quot;http.agent&quot;</span>), str4, <span class="string">&quot;v2.4.2.20200929&quot;</span>));</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            map.put(<span class="string">&quot;User-Agent&quot;</span>, CommonConstants.m12946a());</span><br><span class="line">            <span class="keyword">if</span> (!TextUtils.isEmpty(CommonConstant.f4644b)) &#123;</span><br><span class="line">                map.put(<span class="string">&quot;imei&quot;</span>, CommonConstant.f4644b);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (!TextUtils.isEmpty(CommonConstant.f4643a)) &#123;</span><br><span class="line">                map.put(<span class="string">&quot;utdid&quot;</span>, CommonConstant.f4643a);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        map.put(<span class="string">&quot;native&quot;</span>, <span class="string">&quot;1&quot;</span>);</span><br><span class="line">        map.put(<span class="string">&quot;encrypt&quot;</span>, AlibcJsResult.TIMEOUT);</span><br><span class="line">        map.put(<span class="string">&quot;sign&quot;</span>, AEsUtils.m13512a(str4 + str5 + lowerCase + str3 + c + <span class="string">&quot;v2.4.2.20200929&quot;</span> + str2 + a));</span><br><span class="line">        <span class="keyword">if</span> (!TextUtils.isEmpty(str2)) &#123;</span><br><span class="line">            map.put(<span class="string">&quot;token&quot;</span>, str2);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> map;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>这边看到 str4   str5都会进行一次判断以str4为例</p>
+<p>HostManager.m13215a().mo26572b().getType()为真时值为A6015013435046 假则为A6089682915278</p>
+<p>这边其实无需跟踪这个方法是啥东西  再看下文str4会赋值给 cloudid我们通过对请求报文的cloudid的值的判断即可得知str5的内容是什么</p>
+<p>继续跟踪lowerCase</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String lowerCase = m13518a(str).toLowerCase()</span><br></pre></td></tr></table></figure>
+
+<p>其将一个字符串经过m13518方法后再取小写</p>
+<p>追踪该方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> String <span class="title">m13518a</span><span class="params">(String str)</span> </span>&#123;</span><br><span class="line">        Log.e(<span class="string">&quot;httpUrl&quot;</span>, <span class="string">&quot;httpUrl===&quot;</span> + str);</span><br><span class="line">        String[] split = str.split(<span class="string">&quot;//&quot;</span>);</span><br><span class="line">        String substring = split[<span class="number">1</span>].substring(split[<span class="number">1</span>].indexOf(Operators.DIV));</span><br><span class="line">        <span class="keyword">return</span> substring.indexOf(Operators.CONDITION_IF_STRING) != -<span class="number">1</span> ? substring.split(<span class="string">&quot;\\?&quot;</span>)[<span class="number">0</span>] : substring;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>可见该方法时一个文本切分</p>
+<p>同时它调用了log方法 通过其传参很大概率推测str是请求的地址</p>
+<p>如果是url地址我们把代码放java里面跑下</p>
+<p><img src="/images/jmfx/Untitled%204.png" alt="Untitled"></p>
+<p>很显然该方法得到了api接口的路径</p>
+<p>继续查看str3   显而易见对应的是个时间戳  a对应的是custom头的内容  其是几个随机生成的字母</p>
+<p>最后str2参数</p>
+<p>可见其最后被赋给了token（如果str2不为空）</p>
+<p>至此发包的签名方式分析结束 </p>
+<h2 id="返回包解密"><a href="#返回包解密" class="headerlink" title="返回包解密"></a>返回包解密</h2><p>返回包格式见文章开头截图</p>
+<p>遇见AES加密先搜AEsUtils类，这是负责AES加密解密的类</p>
+<p><img src="/images/jmfx/Untitled%205.png" alt="Untitled"></p>
+<p>定位到关键代码段</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> &lt;T extends BaseEntity&gt; <span class="function">T <span class="title">m13490a</span><span class="params">(String str, Headers headers, SimpleHttpCallback&lt;T&gt; simpleHttpCallback)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        String str2;</span><br><span class="line">        JSONObject jSONObject = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">if</span> (TextUtils.isEmpty(str)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        JSONObject jSONObject2 = <span class="keyword">new</span> JSONObject(str);</span><br><span class="line">        String str3 = <span class="string">&quot;&quot;</span>;</span><br><span class="line">        String obj = jSONObject2.has(<span class="string">&quot;data&quot;</span>) ? jSONObject2.opt(<span class="string">&quot;data&quot;</span>).toString() : str3;</span><br><span class="line">        <span class="keyword">if</span> (jSONObject2.has(<span class="string">&quot;code&quot;</span>) &amp;&amp; jSONObject2.getInt(<span class="string">&quot;code&quot;</span>) != <span class="number">1</span>) &#123;</span><br><span class="line">            jSONObject2.put(<span class="string">&quot;data&quot;</span>, (Object) <span class="keyword">null</span>);</span><br><span class="line">            obj = str3;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> ((jSONObject2.has(<span class="string">&quot;encrypt&quot;</span>) ? ((Integer) jSONObject2.opt(<span class="string">&quot;encrypt&quot;</span>)).intValue() : <span class="number">0</span>) == <span class="number">1</span>) &#123;</span><br><span class="line">            String obj2 = jSONObject2.has(<span class="string">&quot;time&quot;</span>) ? jSONObject2.opt(<span class="string">&quot;time&quot;</span>).toString() : str3;</span><br><span class="line">            <span class="keyword">if</span> (jSONObject2.has(<span class="string">&quot;sign&quot;</span>)) &#123;</span><br><span class="line">                str3 = jSONObject2.opt(<span class="string">&quot;sign&quot;</span>).toString();</span><br><span class="line">            &#125;</span><br><span class="line">            String substring = MD5Utils.m13667a(str3).substring(<span class="number">0</span>, <span class="number">16</span>);</span><br><span class="line">            obj = AEsUtils.m13513a(obj, substring, MD5Utils.m13667a(<span class="string">&quot;key_&quot;</span> + obj2).substring(<span class="number">0</span>, <span class="number">16</span>));</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>最终的解密是</p>
+<p>obj = AEsUtils.m13513a(obj, substring, MD5Utils.m13667a(“key_” + obj2).substring(0, 16));<br>追踪m13513a方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">m13513a</span><span class="params">(String str, String str2, String str3)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            IvParameterSpec ivParameterSpec = <span class="keyword">new</span> IvParameterSpec(str3.getBytes(<span class="string">&quot;UTF-8&quot;</span>));</span><br><span class="line">            SecretKeySpec secretKeySpec = <span class="keyword">new</span> SecretKeySpec(str2.getBytes(<span class="string">&quot;UTF-8&quot;</span>), <span class="string">&quot;AES&quot;</span>);</span><br><span class="line">            Cipher instance = Cipher.getInstance(<span class="string">&quot;AES/CBC/PKCS7PADDING&quot;</span>);</span><br><span class="line">            instance.init(<span class="number">2</span>, secretKeySpec, ivParameterSpec);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> String(instance.doFinal(Base64.decode(str, <span class="number">0</span>)));</span><br></pre></td></tr></table></figure>
+
+<p>可见其第二个参数为密钥 第一个参数为密文   第三个参数为偏移量  加密方式AES/CBC/PKCS7PADDING</p>
+<p>回到刚才的解密代码处</p>
+<p>第二个参数密钥变量为substring ，substring = MD5Utils.m13667a(str3).substring(0, 16)</p>
+<p>其作用是将str3 md5加密后取前16位   str3 = jSONObject2.opt(“sign”).toString(); 可知str3为返回包中的sign段内容   第三个参数偏移量</p>
+<p>是文本  “key_”拼接上 obj2（追踪可得是返回包中的时间戳）md5以后取前十六位</p>
+<p>而解密文本则为返回包中的data参数后的内容</p>
+<p><img src="/images/jmfx/Untitled%206.png" alt="Untitled"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">M4PL3</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://example.com/2021/08/22/%E6%9F%90APP%E7%AE%80%E5%8D%95%E7%9A%84%E6%8A%A5%E6%96%87%E5%8A%A0%E5%AF%86%E5%88%86%E6%9E%90/">http://example.com/2021/08/22/%E6%9F%90APP%E7%AE%80%E5%8D%95%E7%9A%84%E6%8A%A5%E6%96%87%E5%8A%A0%E5%AF%86%E5%88%86%E6%9E%90/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2021/08/12/YMBCMS%E5%AE%A1%E8%AE%A1/"><img class="next-cover" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">YMBCMS 9.2 审计</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> Comment</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="https://thirdqq.qlogo.cn/g?b=sdk&amp;k=KnFJxst4VzWgBDHTtrRomA&amp;s=100&amp;t=1618136919" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">M4PL3</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">14</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9F%90APP%E6%8A%A5%E6%96%87%E5%8A%A0%E5%AF%86%E5%88%86%E6%9E%90"><span class="toc-number">1.</span> <span class="toc-text">某APP报文加密分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%94%E5%9B%9E%E5%8C%85%E8%A7%A3%E5%AF%86"><span class="toc-number">1.1.</span> <span class="toc-text">返回包解密</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/08/22/%E6%9F%90APP%E7%AE%80%E5%8D%95%E7%9A%84%E6%8A%A5%E6%96%87%E5%8A%A0%E5%AF%86%E5%88%86%E6%9E%90/" title="某APP简单的报文加密分析"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="某APP简单的报文加密分析"/></a><div class="content"><a class="title" href="/2021/08/22/%E6%9F%90APP%E7%AE%80%E5%8D%95%E7%9A%84%E6%8A%A5%E6%96%87%E5%8A%A0%E5%AF%86%E5%88%86%E6%9E%90/" title="某APP简单的报文加密分析">某APP简单的报文加密分析</a><time datetime="2021-08-22T14:56:19.000Z" title="Created 2021-08-22 22:56:19">2021-08-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/08/12/YMBCMS%E5%AE%A1%E8%AE%A1/" title="YMBCMS 9.2 审计"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="YMBCMS 9.2 审计"/></a><div class="content"><a class="title" href="/2021/08/12/YMBCMS%E5%AE%A1%E8%AE%A1/" title="YMBCMS 9.2 审计">YMBCMS 9.2 审计</a><time datetime="2021-08-12T08:16:46.000Z" title="Created 2021-08-12 16:16:46">2021-08-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/08/05/%E5%AF%B9%E6%9F%90%E7%BD%91%E7%AB%99%E7%9A%84%E6%9B%B2%E7%BA%BF%E6%B8%97%E9%80%8F/" title="对某网站的曲线渗透"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="对某网站的曲线渗透"/></a><div class="content"><a class="title" href="/2021/08/05/%E5%AF%B9%E6%9F%90%E7%BD%91%E7%AB%99%E7%9A%84%E6%9B%B2%E7%BA%BF%E6%B8%97%E9%80%8F/" title="对某网站的曲线渗透">对某网站的曲线渗透</a><time datetime="2021-08-05T02:01:53.000Z" title="Created 2021-08-05 10:01:53">2021-08-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/06/29/%E7%9F%A5%E7%BD%91%E9%80%BB%E8%BE%91/" title="记一次逻辑漏洞"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="记一次逻辑漏洞"/></a><div class="content"><a class="title" href="/2021/06/29/%E7%9F%A5%E7%BD%91%E9%80%BB%E8%BE%91/" title="记一次逻辑漏洞">记一次逻辑漏洞</a><time datetime="2021-06-29T05:25:35.000Z" title="Created 2021-06-29 13:25:35">2021-06-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/03/26/%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E5%9C%B0%E7%A0%B4%E8%A7%A3%E9%BE%99%E7%8C%AB%E6%A0%A1%E5%9B%AD/" title="对某跑步软件的逆向分析"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="对某跑步软件的逆向分析"/></a><div class="content"><a class="title" href="/2021/03/26/%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E5%9C%B0%E7%A0%B4%E8%A7%A3%E9%BE%99%E7%8C%AB%E6%A0%A1%E5%9B%AD/" title="对某跑步软件的逆向分析">对某跑步软件的逆向分析</a><time datetime="2021-03-25T21:39:32.000Z" title="Created 2021-03-26 05:39:32">2021-03-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By M4PL3</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="Scroll To Comments"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'Q2DzjDCrNXTsDph43kV2JDGe-gzGzoHsz',
+      appKey: 'ewaPH3xM0LFTvbEYvN1hGe0N',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'en',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: true
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
